@@ -1,0 +1,167 @@
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.full_window {
+  display: grid;
+ grid-template-columns: 200px 1200px;
+ grid-template-rows: 150px 650px;
+ grid-template-areas: "main_nav_bar top_bar" "main_nav_bar main_window";
+}
+
+.top_bar {
+  display: grid;
+  grid-template-columns: 1050px 150px;
+  grid-template-rows: 150px;
+  grid-template-areas: "resource_bar reset_bar";
+  grid-area: top_bar;
+  background-image: url('images/resource_bar_bg.png');
+}
+
+.resource_bar {
+  grid-area: resource_bar;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.resource_bar p {
+  color: white;
+  display: inline-flex;
+  white-space: nowrap;
+  border: none;
+  margin-left: 35px;
+  padding-top: 16px;
+  padding-left: 6px;
+  width: 145px;
+  height: 35px;
+  background-image: url('images/resource_bg.png');
+}
+
+.reset_bar {
+  color: white;
+  margin-top: 25px;
+  grid-area: reset_bar;
+}
+
+.reset_bar p {
+  display: inline-flex;
+  padding: 5px;
+}
+
+.main_nav_bar {
+  grid-area: main_nav_bar;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.main_nav_bar::-webkit-scrollbar {
+  display: none;
+}
+
+.main_nav_bar p {
+  color: white;
+  text-align: center;
+  vertical-align: text-bottom;
+  margin-top: 25px;
+  margin-left: 15px;
+  padding-top: 25px;
+  width: 165px;
+  height: 20px;
+  background-image: url('images/main_nav_bar_bg.png');
+}
+
+.sub_nav_bar {
+  display: none;
+  margin-left: 10px;
+}
+
+.sub_nav_bar p {
+  color: white;
+  width: 135px;
+  height: 20px;
+  background-image: url('images/sub_nav_bar_bg.png');
+  margin-top: 0px;
+}
+
+.main_window {
+  grid-area: main_window;
+  background-color: transparent;
+}
+
+.production_tab {
+  width: 1100px;
+  height: 550px;
+  padding: 50px 50px;
+  background-image: url('images/main_bg.png');
+  color: purple;
+}
+
+.tier_one_window, .tier_two_window, .tier_three_window, .tier_four_window, .tier_five_window, .tier_six_window, .foremen_window, .acolytes_window, .followers_window {
+  width: 974px;
+  height: 395px;
+  padding: 15px 15px;
+  background-image: url('images/tapestry_bg.png');
+
+}
+
+.buy_amt_btns {
+  margin-top: -50px;
+  float: right;
+  grid-area: buy_amt_btns;
+  background-color: transparent;
+}
+
+.buy_amt_btns p {
+  display: inline-flex;
+  padding: 5px;
+}
+
+.row {
+  grid-area: row;
+  border: none;
+  white-space: nowrap;
+  background-color: transparent;
+}
+
+.row p {
+  margin: 7px 15px;
+  display: inline-flex;
+  background-color: transparent;
+}
+
+.name {
+  width: 175px;
+}
+
+.info {
+  width: 450px;
+}
+
+.buy_btn {
+  text-align: center;
+  border: solid purple;
+  width: 150px;
+  margin-left: 100px;
+}
+
+.auto_btn {
+  text-align: center;
+  border: solid green;
+  color: green;
+  width: 50px;
+  margin-left: 50px;
+}
+
+#adornments_wrapper {
+  overflow: scroll;
+   width: 1100px;
+   height: 600px;
+}
