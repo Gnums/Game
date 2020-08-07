@@ -23,14 +23,14 @@ function updateProducerCost() {
 
 function updateHtml() {
   producer_array.forEach(prod => {
-    if (prod.tier == 't1') {
-      let res = resource_array.find(r => r.type == prod.type);
+    if (prod.tier === 't1') {
+      let res = resource_array.find(r => r.type === prod.type);
       $('#producer_info_' + prod.tag).text(prod.num.toPrecision(3) + ' + (' + prod.bonus.toPrecision(3) + ') ' + (res.coin_gain_ps.div(res.divisor).mul(res.multi) > .01 ? res.coin_gain_ps.div(res.divisor).mul(res.multi).toPrecision(3) : 0) + ' ' + res.type + '/s and ' + res.coin_gain_ps.toPrecision(3) + ' coins/s ' + res.coin_gain_ps.div(total_coin_ps).mul(100).toPrecision(3) + '%');
   }
-    else if (prod.tier == 'potential') {
+    else if (prod.tier === 'potential') {
       $('#producer_info_' + prod.tag).text();
     }
-    else if (prod.tier == 'divinity') {
+    else if (prod.tier === 'divinity') {
       $('#producer_info_' + prod.tag).text();
     }
     else {

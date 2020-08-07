@@ -1,12 +1,12 @@
 function setBoughtMulti(producer) {
+  if (producer.num >= 100)
+    producer.bought_multi = 8 * (2 * producer.num / 100);
   if (producer.num >= 50 && producer.num < 100)
     producer.bought_multi = 8;
   else if (producer.num >= 25 && producer.num < 50)
     producer.bought_multi = 4;
   else if (producer.num >= 10 && producer.num < 25)
     producer.bought_multi = 2;
-  else
-    producer.bought_multi = 8 * (2 * producer.num / 100);
 }
 
 function buyCheckTotalProducers(prod, amt) {
@@ -29,4 +29,8 @@ function getCost(prod) {
 
 function getMax(prod) {
   return new Decimal(Decimal.floor(new Decimal(Decimal.log(Decimal.pow((prod.exp_base - prod.exp_base_reduc), prod.num).minus(currency_array.find(a => a.type == prod.bought_with).num.mul((1 - (prod.exp_base - prod.exp_base_reduc)) / (prod.base * (1 - prod.base_reduc)))), (prod.exp_base - prod.exp_base_reduc))).minus(prod.num)));
+}
+
+function getTickSpeed() {
+
 }

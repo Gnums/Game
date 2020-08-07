@@ -3,776 +3,1037 @@
   <head>
     <link rel='stylesheet' href='game.css'>
     <script src="js/jquery-3.5.1.min.js"></script>
-    <script src='js/break_infinity.js'></script>
-    <script src="js/var.js"></script>
+    <script src="js/break_infinity.js"></script>
+    <script src="js/svg.min.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/var.js"></script>
+    <script src="js/talent_var.js"></script>
+    <script src="js/leadership_tree.js"></script>
+    <script src="js/adornments_tree.js"></script>
+    <script src="js/aptitude_tree.js"></script>
+    <script src="js/lesser_god_tree.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/calculations.js"></script>
     <script src="js/purchasing.js"></script>
     <script src="js/reset.js"></script>
     <script src="js/update.js"></script>
-    <script src="js/talents.js"></script>
   </head>
+
   <main>
-    <div class='full_window'>
-      <div class='top_bar'>
-        <div class='resource_bar'>
-          <p class='coins'>Coins: <span id='coins_amount'>0</span></p>
-          <p class='land_unlock deeds'>Deeds: <span id='deeds_amount'>0</span></p>
-          <p class='leadership_unlock deeds'>Leadership Points: <span id='leadership_amount'>0</span></p>
-          <p class='inheritance_unlock ancestry'>Ancestry: <span id='ancestry_amount'>0</span></p>
-          <p class='adornment_unlock ancestry'>Adornment Points: <span id='adornment_amount'>0</span></p>
-          <p class='reincarnation_unlock potential'>Potential: <span id='potential_amount'>0</span></p>
-          <p class='aptitude_unlock potential'>Aptitude Points: <span id='aptitude_amount'>0</span></p>
-          <p class='ascend_unlock divinity'>Divinity: <span id='divinity_amount'>0</span></p>
-          <p class='faith_unlock divinity'>Faith Points: <span id='faith_amount'>0</span></p>
-          <p class='stone'>Stone: <span id='stone_amount'>0</span></p>
-          <p class='wood'>Wood: <span id='wood_amount'>0</span></p>
-          <p class='copper'>Copper: <span id='copper_amount'>0</span></p>
-          <p class='bronze'>Bronze: <span id='bronze_amount'>0</span></p>
-          <p class='iron'>Iron: <span id='iron_amount'>0</span></p>
-          <p class='steel'>Steel: <span id='steel_amount'>0</span></p>
-          <p class='silver'>Silver: <span id='silver_amount'>0</span></p>
-          <p class='gold'>Gold: <span id='gold_amount'>0</span></p>
-          <p class='gems'>Gems: <span id='gems_amount'>0</span></p>
-          <p class='runes'>Runes: <span id='runes_amount'>0</span></p>
+    <div class="full_window">
+      <div class="top_bar">
+        <div class="resource_bar">
+          <p class="coins">Coins: <span id="coins_amount">0</span></p>
+          <p class="land_unlock deeds">Deeds: <span id="deeds_amount">0</span></p>
+          <p class="leadership_unlock deeds">Leadership Points: <span id="leadership_amount">0</span></p>
+          <p class="inheritance_unlock ancestry">Ancestry: <span id="ancestry_amount">0</span></p>
+          <p class="adornment_unlock ancestry">Adornment Points: <span id="adornment_amount">0</span></p>
+          <p class="reincarnation_unlock potential">Potential: <span id="potential_amount">0</span></p>
+          <p class="aptitude_unlock potential">Aptitude Points: <span id="aptitude_amount">0</span></p>
+          <p class="ascend_unlock divinity">Divinity: <span id="divinity_amount">0</span></p>
+          <p class="faith_unlock divinity">Faith Points: <span id="faith_amount">0</span></p>
+          <p class="stone">Stone: <span id="stone_amount">0</span></p>
+          <p class="wood">Wood: <span id="wood_amount">0</span></p>
+          <p class="copper">Copper: <span id="copper_amount">0</span></p>
+          <p class="bronze">Bronze: <span id="bronze_amount">0</span></p>
+          <p class="iron">Iron: <span id="iron_amount">0</span></p>
+          <p class="steel">Steel: <span id="steel_amount">0</span></p>
+          <p class="silver">Silver: <span id="silver_amount">0</span></p>
+          <p class="gold">Gold: <span id="gold_amount">0</span></p>
+          <p class="gems">Gems: <span id="gems_amount">0</span></p>
+          <p class="runes">Runes: <span id="runes_amount">0</span></p>
         </div>
 
-        <div class='reset_bar'>
-          <p onclick='purchaseReset()' class='purchase' id='purchase_btn'>P1</p>
-          <p onclick='inheritanceReset()' class='inheritance purchase_unlock' id='inheritance_btn'>I</p>
-          <p onclick='reincarnationReset()' class='reincarnation inheritance_unlock' id='reincarnation_btn'>R</p>
-          <p onclick='divinityReset()' class='divinity reincarnation_unlock' id='divinity_btn'>A</p>
+        <div class="reset_bar">
+          <p onclick="purchaseReset()" class="purchase" id="purchase_btn">P1</p>
+          <p onclick="inheritanceReset()" class="inheritance purchase_unlock" id="inheritance_btn">I</p>
+          <p onclick="reincarnationReset()" class="reincarnation inheritance_unlock" id="reincarnation_btn">R</p>
+          <p onclick="divinityReset()" class="divinity reincarnation_unlock" id="divinity_btn">A</p>
         </div>
       </div>
 
-      <div class='main_nav_bar'>
-        <p class='production nav_bar_text' onclick='showSubTabs("production_nav_bar")'>Production</p>
-        <div class='production_nav_bar sub_nav_bar'>
-          <p onclick='setTab("production_tab", "tier_one_window")' class='production nav_bar_text'>Tier one producers</p>
-          <p onclick='setTab("production_tab", "tier_two_window")' class='land_unlock deeds nav_bar_text'>Tier two producers</p>
-          <p onclick='setTab("production_tab", "tier_three_window")' class='land_t3 deeds nav_bar_text'>Tier three producers</p>
-          <p onclick='setTab("production_tab", "tier_four_window")' class='land_t4 deeds nav_bar_text'>Tier four producers</p>
-          <p onclick='setTab("production_tab", "tier_five_window")' class='land_t5 deeds nav_bar_text'>Tier five producers</p>
-          <p onclick='setTab("production_tab", "tier_six_window")' class='land_t6 deeds nav_bar_text'>Tier six producers</p>
-          <p onclick='setTab("production_tab", "foremen_window")' class='land_unlock deeds nav_bar_text'>Foremen</p>
-          <p onclick='setTab("production_tab", "acolytes_window")' class='reincarnation_unlock potential nav_bar_text'>Acolytes</p>
-          <p onclick='setTab("production_tab", "followers_window")' class='ascend_unlock divinity nav_bar_text'>Followers</p>
+      <div class="main_nav_bar">
+        <p class="production nav_bar_text" onclick='showSubTabs("production_nav_bar")'>Production</p>
+        <div class="production_nav_bar sub_nav_bar">
+          <p onclick='setTab("production_tab", "tier_one_window")' class="production nav_bar_text">Tier one producers</p>
+          <p onclick='setTab("production_tab", "tier_two_window")' class="land_unlock deeds nav_bar_text">Tier two producers</p>
+          <p onclick='setTab("production_tab", "tier_three_window")' class="land_t3 deeds nav_bar_text">Tier three producers</p>
+          <p onclick='setTab("production_tab", "tier_four_window")' class="land_t4 deeds nav_bar_text">Tier four producers</p>
+          <p onclick='setTab("production_tab", "tier_five_window")' class="land_t5 deeds nav_bar_text">Tier five producers</p>
+          <p onclick='setTab("production_tab", "tier_six_window")' class="land_t6 deeds nav_bar_text">Tier six producers</p>
+          <p onclick='setTab("production_tab", "foremen_window")' class="land_unlock deeds nav_bar_text">Foremen</p>
+          <p onclick='setTab("production_tab", "acolytes_window")' class="reincarnation_unlock potential nav_bar_text">Acolytes</p>
+          <p onclick='setTab("production_tab", "followers_window")' class="ascend_unlock divinity nav_bar_text">Followers</p>
         </div>
-        <p class='upgrades nav_bar_text' onclick='showSubTabs("upgrades_nav_bar")'>Upgrades</p>
-        <div class='upgrades_nav_bar sub_nav_bar'>
-          <p onclick='setTab("upgrades_tab", "base_window")' class='upgrades nav_bar_text'>Base Upgrades</p>
-          <p onclick='setTab("upgrades_tab", "land_window")' class='land_unlock deeds nav_bar_text'>Land Upgrades</p>
-          <p onclick='setTab("upgrades_tab", "leadership_window")' class='leadership_unlock deeds nav_bar_text'>Leadership Talents</p>
-          <p onclick='setTab("upgrades_tab", "relics_window")' class='inheritance_unlock ancestry nav_bar_text'>Relics</p>
-          <p onclick='setTab("upgrades_tab", "adornments_window")' class='adornment_unlock ancestry nav_bar_text'>Adornment Talents</p>
-          <p onclick='setTab("upgrades_tab", "inventory_window")' class='inheritance_unlock ancestry nav_bar_text'>Inventory</p>
-          <p onclick='setTab("upgrades_tab", "aptitude_window")' class='aptitude_unlock potential nav_bar_text'>Aptitude Talents</p>
-          <p onclick='setTab("upgrades_tab", "traits_window")' class='divinity_unlock divinity nav_bar_text'>Divine Traits</p>
-          <p onclick='setTab("upgrades_tab", "lesser_window")' class='faith_unlock divinity nav_bar_text'>Lesser God Talents</p>
-          <p onclick='setTab("upgrades_tab", "traces_window")' class='traces_unlock divinity nav_bar_text'>Divine Traces</p>
+
+        <p class="upgrades nav_bar_text" onclick='showSubTabs("upgrades_nav_bar")'>Upgrades</p>
+        <div class="upgrades_nav_bar sub_nav_bar">
+          <p onclick='setTab("upgrades_tab", "base_window")' class="upgrades nav_bar_text">Base Upgrades</p>
+          <p onclick='setTab("upgrades_tab", "land_window")' class="land_unlock deeds nav_bar_text">Land Upgrades</p>
+          <p onclick='setTab("upgrades_tab", "leadership_window")' class="leadership_unlock deeds nav_bar_text">Leadership Talents</p>
+          <p onclick='setTab("upgrades_tab", "relics_window")' class="inheritance_unlock ancestry nav_bar_text">Relics</p>
+          <p onclick='setTab("upgrades_tab", "adornments_window")' class="adornment_unlock ancestry nav_bar_text">Adornment Talents</p>
+          <p onclick='setTab("upgrades_tab", "inventory_window")' class="inheritance_unlock ancestry nav_bar_text">Inventory</p>
+          <p onclick='setTab("upgrades_tab", "aptitude_window")' class="aptitude_unlock potential nav_bar_text">Aptitude Talents</p>
+          <p onclick='setTab("upgrades_tab", "traits_window")' class="divinity_unlock divinity nav_bar_text">Divine Traits</p>
+          <p onclick='setTab("upgrades_tab", "lesser_window")' class="faith_unlock divinity nav_bar_text">Lesser God Talents</p>
+          <p onclick='setTab("upgrades_tab", "traces_window")' class="traces_unlock divinity nav_bar_text">Divine Traces</p>
         </div>
-        <p class='challenges nav_bar_text' onclick='showSubTabs("challenge_nav_bar")'>Challenges</p>
-        <div class='challenge_nav_bar sub_nav_bar'>
-          <p onclick='setTab("challenge_tab", "deeds_challenge")' class='purchase_unlock deeds nav_bar_text'>Land Grab</p>
-          <p onclick='setTab("challenge_tab", "heritage_challenge")' class='inheritance_unlock ancestry nav_bar_text'>Heritage and Destiny</p>
-          <p onclick='setTab("challenge_tab", "divinity_challenge")' class='divinity_unlock challenges nav_bar_text'>Divine Trials</p>
+
+        <p class="challenges nav_bar_text" onclick='showSubTabs("challenge_nav_bar")'>Challenges</p>
+        <div class="challenge_nav_bar sub_nav_bar">
+          <p onclick='setTab("challenge_tab", "deeds_challenge")' class="purchase_unlock deeds nav_bar_text">Land Grab</p>
+          <p onclick='setTab("challenge_tab", "heritage_challenge")' class="inheritance_unlock ancestry nav_bar_text">Heritage and Destiny</p>
+          <p onclick='setTab("challenge_tab", "divinity_challenge")' class="divinity_unlock challenges nav_bar_text">Divine Trials</p>
         </div>
-        <p class='deeds nav_bar_text' onclick='showSubTabs("reset_nav_bar")'>Reset</p>
-        <div class='reset_nav_bar sub_nav_bar'>
-          <p onclick='setTab("reset_tab", "deeds_window")' class='land_unlock deeds nav_bar_text'>Purchase</p>
-          <p onclick='setTab("reset_tab", "inheritance_window")' class='inheritance_unlock ancestry nav_bar_text'>Inheritance</p>
-          <p onclick='setTab("reset_tab", "reincarnation_window")' class='reincarnation_unlock potential nav_bar_text'>Reincarnation</p>
-          <p onclick='setTab("reset_tab", "ascension_window")' class='ascend_unlock divinity nav_bar_text'>Ascension</p>
+
+        <p class="deeds nav_bar_text" onclick='showSubTabs("reset_nav_bar")'>Reset</p>
+        <div class="reset_nav_bar sub_nav_bar">
+          <p onclick='setTab("reset_tab", "deeds_window")' class="land_unlock deeds nav_bar_text">Purchase</p>
+          <p onclick='setTab("reset_tab", "inheritance_window")' class="inheritance_unlock ancestry nav_bar_text">Inheritance</p>
+          <p onclick='setTab("reset_tab", "reincarnation_window")' class="reincarnation_unlock potential nav_bar_text">Reincarnation</p>
+          <p onclick='setTab("reset_tab", "ascension_window")' class="ascend_unlock divinity nav_bar_text">Ascension</p>
         </div>
-        <p onclick='setTab("achievement_tab", "achievement_window")' class='achievements nav_bar_text'>Achievements</p>
-        <p onclick='setTab("options_tab", "options_window")' class='options nav_bar_text'>Options</p>
+
+        <p onclick='setTab("achievement_tab", "achievement_window")' class="achievements nav_bar_text">Achievements</p>
+        <p onclick='setTab("options_tab", "options_window")' class="options nav_bar_text">Options</p>
       </div>
 
-      <div class='main_window'>
-        <div class='production_tab'>
-            <div class='tier_one_window'>
-              <div class='buy_amt_btns'>
-                  <p onclick='setBuyAmt("t1", 1)'>1</p>
-                  <p onclick='setBuyAmt("t1", 10)'>10</p>
-                  <p onclick='setBuyAmt("t1", 25)'>25</p>
-                  <p onclick='setBuyAmt("t1", 100)'>100</p>
-                  <p onclick='setBuyAmt("t1", "max")'>Max</p>
-                </div>
-                <div class='row stone'>
-                  <p class='name'>Tier One Stone Producer</p>
-                  <p id='producer_info_00' class='info'>0</p>
-                  <p onclick='buyBuilding("00")' id='producer_btn_00' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("00")' id='auto_btn_00' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Tier One Wood Producer</p>
-                  <p id='producer_info_01' class='info'>0</p>
-                  <p onclick='buyBuilding("01")' id='producer_btn_01' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("01")' id='auto_btn_01' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Tier One Copper Producer</p>
-                  <p id='producer_info_02' class='info'>0</p>
-                  <p onclick='buyBuilding("02")' id='producer_btn_02' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("02")' id='auto_btn_02' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Tier One Bronze Producer</p>
-                  <p id='producer_info_03' class='info'>0</p>
-                  <p onclick='buyBuilding("03")' id='producer_btn_03' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("03")' id='auto_btn_03' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Tier One Iron Producer</p>
-                  <p id='producer_info_04' class='info'>0</p>
-                  <p onclick='buyBuilding("04")' id='producer_btn_04' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("04")' id='auto_btn_04' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Tier One Steel Producer</p>
-                  <p id='producer_info_05' class='info'>0</p>
-                  <p onclick='buyBuilding("05")' id='producer_btn_05' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("05")' id='auto_btn_05' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Tier One Silver Producer</p>
-                  <p id='producer_info_06' class='info'>0</p>
-                  <p onclick='buyBuilding("06")' id='producer_btn_06' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("06")' id='auto_btn_06' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Tier One Gold Producer</p>
-                  <p id='producer_info_07' class='info'>0</p>
-                  <p onclick='buyBuilding("07")' id='producer_btn_07' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("07")' id='auto_btn_07' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Tier One Gem Producer</p>
-                  <p id='producer_info_08' class='info'>0</p>
-                  <p onclick='buyBuilding("08")' id='producer_btn_08' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("08")' id='auto_btn_08' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Tier One Rune Producer</p>
-                  <p id='producer_info_09' class='info'>0</p>
-                  <p onclick='buyBuilding("09")' id='producer_btn_09' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("09")' id='auto_btn_09' class='auto_btn'>Auto</p>
-                </div>
+      <div class="main_window">
+        <div class="production_tab">
+          <div class="tier_one_window">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("t1", 1)'>1</p>
+              <p onclick='setBuyAmt("t1", 10)'>10</p>
+              <p onclick='setBuyAmt("t1", 25)'>25</p>
+              <p onclick='setBuyAmt("t1", 100)'>100</p>
+              <p onclick='setBuyAmt("t1", "max")'>Max</p>
             </div>
 
-            <div class='tier_two_window' style='display: none'>
-                <div class='buy_amt_btns'>
-                  <p onclick='setBuyAmt("t2", 1)'>1</p>
-                  <p onclick='setBuyAmt("t2", 10)'>10</p>
-                  <p onclick='setBuyAmt("t2", 25)'>25</p>
-                  <p onclick='setBuyAmt("t2", 100)'>100</p>
-                  <p onclick='setBuyAmt("t2", "max")'>Max</p>
-                </div>
-                <div class='row stone'>
-                  <p class='name'>Tier Two Stone Producer</p>
-                  <p id='producer_info_10' class='info'>0</p>
-                  <p onclick='buyBuilding("10")' id='producer_btn_10' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("10")' id='auto_btn_10' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Tier Two Wood Producer</p>
-                  <p id='producer_info_11' class='info'>0</p>
-                  <p onclick='buyBuilding("11")' id='producer_btn_11' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("11")' id='auto_btn_11' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Tier Two Copper Producer</p>
-                  <p id='producer_info_12' class='info'>0</p>
-                  <p onclick='buyBuilding("12")' id='producer_btn_12' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("12")' id='auto_btn_12' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Tier Two Bronze Producer</p>
-                  <p id='producer_info_13' class='info'>0</p>
-                  <p onclick='buyBuilding("13")' id='producer_btn_13' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("13")' id='auto_btn_13' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Tier Two Iron Producer</p>
-                  <p id='producer_info_14' class='info'>0</p>
-                  <p onclick='buyBuilding("14")' id='producer_btn_14' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("14")' id='auto_btn_14' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Tier Two Steel Producer</p>
-                  <p id='producer_info_15' class='info'>0</p>
-                  <p onclick='buyBuilding("15")' id='producer_btn_15' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("15")' id='auto_btn_15' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Tier Two Silver Producer</p>
-                  <p id='producer_info_16' class='info'>0</p>
-                  <p onclick='buyBuilding("16")' id='producer_btn_16' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("16")' id='auto_btn_16' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Tier Two Gold Producer</p>
-                  <p id='producer_info_17' class='info'>0</p>
-                  <p onclick='buyBuilding("17")' id='producer_btn_17' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("17")' id='auto_btn_17' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Tier Two Gem Producer</p>
-                  <p id='producer_info_18' class='info'>0</p>
-                  <p onclick='buyBuilding("18")' id='producer_btn_18' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("18")' id='auto_btn_18' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Tier Two Rune Producer</p>
-                  <p id='producer_info_19' class='info'>0</p>
-                  <p onclick='buyBuilding("19")' id='producer_btn_19' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("19")' id='auto_btn_19' class='auto_btn'>Auto</p>
-                </div>
-              </div>
-
-              <div class='tier_three_window' style='display: none'>
-                <div class='buy_amt_btns'>
-                  <p onclick='setBuyAmt("t3", 1)'>1</p>
-                  <p onclick='setBuyAmt("t3", 10)'>10</p>
-                  <p onclick='setBuyAmt("t3", 25)'>25</p>
-                  <p onclick='setBuyAmt("t3", 100)'>100</p>
-                  <p onclick='setBuyAmt("t3", "max")'>Max</p>
-                </div>
-                <div class='row stone'>
-                  <p class='name'>Tier Three Stone Producer</p>
-                  <p id='producer_info_20' class='info'>0</p>
-                  <p onclick='buyBuilding("20")' id='producer_btn_20' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("20")' id='auto_btn_20' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Tier Three Wood Producer</p>
-                  <p id='producer_info_21' class='info'>0</p>
-                  <p onclick='buyBuilding("21")' id='producer_btn_21' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("21")' id='auto_btn_21' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Tier Three Copper Producer</p>
-                  <p id='producer_info_22' class='info'>0</p>
-                  <p onclick='buyBuilding("22")' id='producer_btn_22' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("22")' id='auto_btn_22' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Tier Three Bronze Producer</p>
-                  <p id='producer_info_23' class='info'>0</p>
-                  <p onclick='buyBuilding("23")' id='producer_btn_23' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("23")' id='auto_btn_23' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Tier Three Iron Producer</p>
-                  <p id='producer_info_24' class='info'>0</p>
-                  <p onclick='buyBuilding("24")' id='producer_btn_24' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("24")' id='auto_btn_24' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Tier Three Steel Producer</p>
-                  <p id='producer_info_25' class='info'>0</p>
-                  <p onclick='buyBuilding("25")' id='producer_btn_25' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("25")' id='auto_btn_25' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Tier Three Silver Producer</p>
-                  <p id='producer_info_26' class='info'>0</p>
-                  <p onclick='buyBuilding("26")' id='producer_btn_26' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("26")' id='auto_btn_26' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Tier Three Gold Producer</p>
-                  <p id='producer_info_27' class='info'>0</p>
-                  <p onclick='buyBuilding("27")' id='producer_btn_27' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("27")' id='auto_btn_27' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Tier Three Gem Producer</p>
-                  <p id='producer_info_28' class='info'>0</p>
-                  <p onclick='buyBuilding("28")' id='producer_btn_28' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("28")' id='auto_btn_28' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Tier Three Rune Producer</p>
-                  <p id='producer_info_29' class='info'>0</p>
-                  <p onclick='buyBuilding("29")' id='producer_btn_29' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("29")' id='auto_btn_29' class='auto_btn'>Auto</p>
-                </div>
-              </div>
-
-              <div class='tier_four_window' style='display: none'>
-                <div class='buy_amt_btns'>
-                  <p onclick='setBuyAmt("t4", 1)'>1</p>
-                  <p onclick='setBuyAmt("t4", 10)'>10</p>
-                  <p onclick='setBuyAmt("t4", 25)'>25</p>
-                  <p onclick='setBuyAmt("t4", 100)'>100</p>
-                  <p onclick='setBuyAmt("t4", "max")'>Max</p>
-                </div>
-                <div class='row stone'>
-                  <p class='name'>Tier Four Stone Producer</p>
-                  <p id='producer_info_30' class='info'>0</p>
-                  <p onclick='buyBuilding("30")' id='producer_btn_30' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("30")' id='auto_btn_30' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Tier Four Wood Producer</p>
-                  <p id='producer_info_31' class='info'>0</p>
-                  <p onclick='buyBuilding("31")' id='producer_btn_31' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("31")' id='auto_btn_31' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Tier Four Copper Producer</p>
-                  <p id='producer_info_32' class='info'>0</p>
-                  <p onclick='buyBuilding("32")' id='producer_btn_32' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("32")' id='auto_btn_32' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Tier Four Bronze Producer</p>
-                  <p id='producer_info_33' class='info'>0</p>
-                  <p onclick='buyBuilding("33")' id='producer_btn_33' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("33")' id='auto_btn_33' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Tier Four Iron Producer</p>
-                  <p id='producer_info_34' class='info'>0</p>
-                  <p onclick='buyBuilding("34")' id='producer_btn_34' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("34")' id='auto_btn_34' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Tier Four Steel Producer</p>
-                  <p id='producer_info_35' class='info'>0</p>
-                  <p onclick='buyBuilding("35")' id='producer_btn_35' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("35")' id='auto_btn_35' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Tier Four Silver Producer</p>
-                  <p id='producer_info_36' class='info'>0</p>
-                  <p onclick='buyBuilding("36")' id='producer_btn_36' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("36")' id='auto_btn_36' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Tier Four Gold Producer</p>
-                  <p id='producer_info_37' class='info'>0</p>
-                  <p onclick='buyBuilding("37")' id='producer_btn_37' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("37")' id='auto_btn_37' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Tier Four Gem Producer</p>
-                  <p id='producer_info_38' class='info'>0</p>
-                  <p onclick='buyBuilding("38")' id='producer_btn_38' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("38")' id='auto_btn_38' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Tier Four Rune Producer</p>
-                  <p id='producer_info_39' class='info'>0</p>
-                  <p onclick='buyBuilding("39")' id='producer_btn_39' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("39")' id='auto_btn_39' class='auto_btn'>Auto</p>
-                </div>
-              </div>
-
-              <div class='tier_five_window' style='display: none'>
-                <div class='buy_amt_btns'>
-                  <p onclick='setBuyAmt("t5", 1)'>1</p>
-                  <p onclick='setBuyAmt("t5", 10)'>10</p>
-                  <p onclick='setBuyAmt("t5", 25)'>25</p>
-                  <p onclick='setBuyAmt("t5", 100)'>100</p>
-                  <p onclick='setBuyAmt("t5", "max")'>Max</p>
-                </div>
-                <div class='row stone'>
-                  <p class='name'>Tier Five Stone Producer</p>
-                  <p id='producer_info_40' class='info'>0</p>
-                  <p onclick='buyBuilding("40")' id='producer_btn_40' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("40")' id='auto_btn_40' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Tier Five Wood Producer</p>
-                  <p id='producer_info_41' class='info'>0</p>
-                  <p onclick='buyBuilding("41")' id='producer_btn_41' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("41")' id='auto_btn_41' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Tier Five Copper Producer</p>
-                  <p id='producer_info_42' class='info'>0</p>
-                  <p onclick='buyBuilding("42")' id='producer_btn_42' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("42")' id='auto_btn_42' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Tier Five Bronze Producer</p>
-                  <p id='producer_info_43' class='info'>0</p>
-                  <p onclick='buyBuilding("43")' id='producer_btn_43' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("43")' id='auto_btn_43' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Tier Five Iron Producer</p>
-                  <p id='producer_info_44' class='info'>0</p>
-                  <p onclick='buyBuilding("44")' id='producer_btn_44' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("44")' id='auto_btn_44' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Tier Five Steel Producer</p>
-                  <p id='producer_info_45' class='info'>0</p>
-                  <p onclick='buyBuilding("45")' id='producer_btn_45' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("45")' id='auto_btn_45' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Tier Five Silver Producer</p>
-                  <p id='producer_info_46' class='info'>0</p>
-                  <p onclick='buyBuilding("46")' id='producer_btn_46' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("46")' id='auto_btn_46' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Tier Five Gold Producer</p>
-                  <p id='producer_info_47' class='info'>0</p>
-                  <p onclick='buyBuilding("47")' id='producer_btn_47' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("47")' id='auto_btn_47' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Tier Five Gem Producer</p>
-                  <p id='producer_info_48' class='info'>0</p>
-                  <p onclick='buyBuilding("48")' id='producer_btn_48' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("48")' id='auto_btn_48' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Tier Five Rune Producer</p>
-                  <p id='producer_info_49' class='info'>0</p>
-                  <p onclick='buyBuilding("49")' id='producer_btn_49' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("49")' id='auto_btn_49' class='auto_btn'>Auto</p>
-                </div>
-              </div>
-
-              <div class='tier_six_window' style='display: none'>
-                <div class='buy_amt_btns'>
-                  <p onclick='setBuyAmt("t6", 1)'>1</p>
-                  <p onclick='setBuyAmt("t6", 10)'>10</p>
-                  <p onclick='setBuyAmt("t6", 25)'>25</p>
-                  <p onclick='setBuyAmt("t6", 100)'>100</p>
-                  <p onclick='setBuyAmt("t6", "max")'>Max</p>
-                </div>
-                <div class='row stone'>
-                  <p class='name'>Tier Six Stone Producer</p>
-                  <p id='producer_info_50' class='info'>0</p>
-                  <p onclick='buyBuilding("50")' id='producer_btn_50' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("50")' id='auto_btn_50' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Tier Six Wood Producer</p>
-                  <p id='producer_info_51' class='info'>0</p>
-                  <p onclick='buyBuilding("51")' id='producer_btn_51' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("51")' id='auto_btn_51' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Tier Six Copper Producer</p>
-                  <p id='producer_info_52' class='info'>0</p>
-                  <p onclick='buyBuilding("52")' id='producer_btn_52' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("52")' id='auto_btn_52' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Tier Six Bronze Producer</p>
-                  <p id='producer_info_53' class='info'>0</p>
-                  <p onclick='buyBuilding("53")' id='producer_btn_53' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("53")' id='auto_btn_53' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Tier Six Iron Producer</p>
-                  <p id='producer_info_54' class='info'>0</p>
-                  <p onclick='buyBuilding("54")' id='producer_btn_54' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("54")' id='auto_btn_54' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Tier Six Steel Producer</p>
-                  <p id='producer_info_55' class='info'>0</p>
-                  <p onclick='buyBuilding("55")' id='producer_btn_55' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("55")' id='auto_btn_55' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Tier Six Silver Producer</p>
-                  <p id='producer_info_56' class='info'>0</p>
-                  <p onclick='buyBuilding("56")' id='producer_btn_56' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("56")' id='auto_btn_56' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Tier Six Gold Producer</p>
-                  <p id='producer_info_57' class='info'>0</p>
-                  <p onclick='buyBuilding("57")' id='producer_btn_57' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("57")' id='auto_btn_57' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Tier Six Gem Producer</p>
-                  <p id='producer_info_58' class='info'>0</p>
-                  <p onclick='buyBuilding("58")' id='producer_btn_58' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("58")' id='auto_btn_58' class='auto_btn'>Auto</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Tier Six Rune Producer</p>
-                  <p id='producer_info_59' class='info'>0</p>
-                  <p onclick='buyBuilding("59")' id='producer_btn_59' class='buy_btn'>0</p>
-                  <p onclick='toggleAuto("59")' id='auto_btn_59' class='auto_btn'>Auto</p>
-                </div>
-              </div>
-
-              <div class='foremen_window' style='display: none'>
-                <div class='buy_amt_btns'>
-                <p onclick='setBuyAmt("foremen", 1)'>1</p>
-                <p onclick='setBuyAmt("foremen", 5)'>5</p>
-                <p onclick='setBuyAmt("foremen", 20)'>20</p>
-                </div>
-
-                <p>Unassigned Foremen: <span id='foremen_info_00'>0</span></p>
-
-                <div class='row stone'>
-                  <p class='name'>Stone Foremen</p>
-                  <p id='foremen_info_01' class='info'>0</p>
-                  <p onclick='assignForemen("01")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row wood'>
-                  <p class='name'>Wood Foremen</p>
-                  <p id='foremen_info_02' class='info'>0</p>
-                  <p onclick='assignForemen("02")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row copper'>
-                  <p class='name'>Copper Foremen</p>
-                  <p id='foremen_info_03' class='info'>0</p>
-                  <p onclick='assignForemen("03")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row bronze'>
-                  <p class='name'>Bronze Foremen</p>
-                  <p id='foremen_info_04' class='info'>0</p>
-                  <p onclick='assignForemen("04")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row iron'>
-                  <p class='name'>Iron Foremen</p>
-                  <p id='foremen_info_05' class='info'>0</p>
-                  <p onclick='assignForemen("05")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row steel'>
-                  <p class='name'>Steel Foremen</p>
-                  <p id='foremen_info_06' class='info'>0</p>
-                  <p onclick='assignForemen("06")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row silver'>
-                  <p class='name'>Silver Foremen</p>
-                  <p id='foremen_info_07' class='info'>0</p>
-                  <p onclick='assignForemen("07")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row gold'>
-                  <p class='name'>Gold Foremen</p>
-                  <p id='foremen_info_08' class='info'>0</p>
-                  <p onclick='assignForemen("08")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row gems'>
-                  <p class='name'>Gem Foremen</p>
-                  <p id='foremen_info_09' class='info'>0</p>
-                  <p onclick='assignForemen("09")' class='buy_btn'>Assign Foremen</p>
-                </div>
-
-                <div class='row runes'>
-                  <p class='name'>Rune Foremen</p>
-                  <p id='foremen_info_10' class='info'>0</p>
-                  <p onclick='assignForemen("10")' class='buy_btn'>Assign Foremen</p>
-                </div>
-              </div>
-
-              <div class='acolytes_window' style='display: none'>
-              <div class='buy_amt_btns'>
-                <p onclick='setBuyAmt("potential", 1)'>1</p>
-                <p onclick='setBuyAmt("potential", 10)'>10</p>
-                <p onclick='setBuyAmt("potential", 25)'>25</p>
-                <p onclick='setBuyAmt("potential", 100)'>100</p>
-                <p onclick='setBuyAmt("potential", "max")'>Max</p>
-              </div>
-              <div class='row potential'>
-                <p class='name'>Tier One Acolyte</p>
-                <p id='producer_info_60' class='info'>0</p>
-                <p onclick='buyBuilding("60")' id='producer_btn_60' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("60")' id='auto_btn_60' class='auto_btn'>Auto</p>
-              </div>
-
-              <div class='row potential'>
-                <p class='name'>Tier Two Acolyte</p>
-                <p id='producer_info_61' class='info'>0</p>
-                <p onclick='buyBuilding("61")' id='producer_btn_61' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("61")' id='auto_btn_61' class='auto_btn'>Auto</p>
-              </div>
-
-              <div class='row potential'>
-                <p class='name'>Tier Three Acolyte</p>
-                <p id='producer_info_62' class='info'>0</p>
-                <p onclick='buyBuilding("62")' id='producer_btn_62' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("62")' id='auto_btn_62' class='auto_btn'>Auto</p>
-              </div>
-
-              <div class='row potential'>
-                <p class='name'>Tier Four Acolyte</p>
-                <p id='producer_info_63' class='info'>0</p>
-                <p onclick='buyBuilding("63")' id='producer_btn_63' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("63")' id='auto_btn_63' class='auto_btn'>Auto</p>
-              </div>
-
-              <div class='row potential'>
-                <p class='name'>Tier Five Acolyte</p>
-                <p id='producer_info_64' class='info'>0</p>
-                <p onclick='buyBuilding("64")' id='producer_btn_64' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("64")' id='auto_btn_64' class='auto_btn'>Auto</p>
-              </div>
-
-              <div class='row potential'>
-                <p class='name'>Tier Six Acolyte</p>
-                <p id='producer_info_65' class='info'>0</p>
-                <p onclick='buyBuilding("65")' id='producer_btn_65' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("65")' id='auto_btn_65' class='auto_btn'>Auto</p>
-              </div>
+            <div class="row stone">
+              <p class="name">Tier One Stone Producer</p>
+              <p id="producer_info_00" class="info">0</p>
+              <p onclick='buyBuilding("00")' id="producer_btn_00" class="buy_btn">0</p>
+              <p onclick='toggleAuto("00")' id="auto_btn_00" class="auto_btn">Auto</p>
             </div>
 
-            <div class='followers_window' style='display: none'>
-              <div class='buy_amt_btns'>
-                <p onclick='setBuyAmt("divinity", 1)'>1</p>
-                <p onclick='setBuyAmt("divinity", 10)'>10</p>
-                <p onclick='setBuyAmt("divinity", 25)'>25</p>
-                <p onclick='setBuyAmt("divinity", 100)'>100</p>
-                <p onclick='setBuyAmt("divinity", "max")'>Max</p>
-              </div>
-              <div class='row divinity'>
-                <p class='name'>Tier One Follower</p>
-                <p id='producer_info_70' class='info'>0</p>
-                <p onclick='buyBuilding("70")' id='producer_btn_70' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("70")' id='auto_btn_70' class='auto_btn'>Auto</p>
-              </div>
+            <div class="row wood">
+              <p class="name">Tier One Wood Producer</p>
+              <p id="producer_info_01" class="info">0</p>
+              <p onclick='buyBuilding("01")' id="producer_btn_01" class="buy_btn">0</p>
+              <p onclick='toggleAuto("01")' id="auto_btn_01" class="auto_btn">Auto</p>
+            </div>
 
-              <div class='row divinity'>
-                <p class='name'>Tier Two Follower</p>
-                <p id='producer_info_71' class='info'>0</p>
-                <p onclick='buyBuilding("71")' id='producer_btn_71' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("71")' id='auto_btn_71' class='auto_btn'>Auto</p>
-              </div>
-              <div class='row divinity'>
-                <p class='name'>Tier Three Follower</p>
-                <p id='producer_info_72' class='info'>0</p>
-                <p onclick='buyBuilding("72")' id='producer_btn_72' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("72")' id='auto_btn_72' class='auto_btn'>Auto</p>
-              </div>
+            <div class="row copper">
+              <p class="name">Tier One Copper Producer</p>
+              <p id="producer_info_02" class="info">0</p>
+              <p onclick='buyBuilding("02")' id="producer_btn_02" class="buy_btn">0</p>
+              <p onclick='toggleAuto("02")' id="auto_btn_02" class="auto_btn">Auto</p>
+            </div>
 
-              <div class='row divinity'>
-                <p class='name'>Tier Four Follower</p>
-                <p id='producer_info_73' class='info'>0</p>
-                <p onclick='buyBuilding("73")' id='producer_btn_73' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("73")' id='auto_btn_73' class='auto_btn'>Auto</p>
-              </div>
+            <div class="row bronze">
+              <p class="name">Tier One Bronze Producer</p>
+              <p id="producer_info_03" class="info">0</p>
+              <p onclick='buyBuilding("03")' id="producer_btn_03" class="buy_btn">0</p>
+              <p onclick='toggleAuto("03")' id="auto_btn_03" class="auto_btn">Auto</p>
+            </div>
 
-              <div class='row divinity'>
-                <p class='name'>Tier Five Follower</p>
-                <p id='producer_info_74' class='info'>0</p>
-                <p onclick='buyBuilding("74")' id='producer_btn_74' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("74")' id='auto_btn_74' class='auto_btn'>Auto</p>
-              </div>
+            <div class="row iron">
+              <p class="name">Tier One Iron Producer</p>
+              <p id="producer_info_04" class="info">0</p>
+              <p onclick='buyBuilding("04")' id="producer_btn_04" class="buy_btn">0</p>
+              <p onclick='toggleAuto("04")' id="auto_btn_04" class="auto_btn">Auto</p>
+            </div>
 
-              <div class='row divinity'>
-                <p class='name'>Tier Six Follower</p>
-                <p id='producer_info_75' class='info'>0</p>
-                <p onclick='buyBuilding("75")' id='producer_btn_75' class='buy_btn'>0</p>
-                <p onclick='toggleAuto("75")' id='auto_btn_75' class='auto_btn'>Auto</p>
+            <div class="row steel">
+              <p class="name">Tier One Steel Producer</p>
+              <p id="producer_info_05" class="info">0</p>
+              <p onclick='buyBuilding("05")' id="producer_btn_05" class="buy_btn">0</p>
+              <p onclick='toggleAuto("05")' id="auto_btn_05" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Tier One Silver Producer</p>
+              <p id="producer_info_06" class="info">0</p>
+              <p onclick='buyBuilding("06")' id="producer_btn_06" class="buy_btn">0</p>
+              <p onclick='toggleAuto("06")' id="auto_btn_06" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Tier One Gold Producer</p>
+              <p id="producer_info_07" class="info">0</p>
+              <p onclick='buyBuilding("07")' id="producer_btn_07" class="buy_btn">0</p>
+              <p onclick='toggleAuto("07")' id="auto_btn_07" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Tier One Gem Producer</p>
+              <p id="producer_info_08" class="info">0</p>
+              <p onclick='buyBuilding("08")' id="producer_btn_08" class="buy_btn">0</p>
+              <p onclick='toggleAuto("08")' id="auto_btn_08" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Tier One Rune Producer</p>
+              <p id="producer_info_09" class="info">0</p>
+              <p onclick='buyBuilding("09")' id="producer_btn_09" class="buy_btn">0</p>
+              <p onclick='toggleAuto("09")' id="auto_btn_09" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="tier_two_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("t2", 1)'>1</p>
+              <p onclick='setBuyAmt("t2", 10)'>10</p>
+              <p onclick='setBuyAmt("t2", 25)'>25</p>
+              <p onclick='setBuyAmt("t2", 100)'>100</p>
+              <p onclick='setBuyAmt("t2", "max")'>Max</p>
+            </div>
+
+            <div class="row stone">
+              <p class="name">Tier Two Stone Producer</p>
+              <p id="producer_info_10" class="info">0</p>
+              <p onclick='buyBuilding("10")' id="producer_btn_10" class="buy_btn">0</p>
+              <p onclick='toggleAuto("10")' id="auto_btn_10" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row wood">
+              <p class="name">Tier Two Wood Producer</p>
+              <p id="producer_info_11" class="info">0</p>
+              <p onclick='buyBuilding("11")' id="producer_btn_11" class="buy_btn">0</p>
+              <p onclick='toggleAuto("11")' id="auto_btn_11" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row copper">
+              <p class="name">Tier Two Copper Producer</p>
+              <p id="producer_info_12" class="info">0</p>
+              <p onclick='buyBuilding("12")' id="producer_btn_12" class="buy_btn">0</p>
+              <p onclick='toggleAuto("12")' id="auto_btn_12" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row bronze">
+              <p class="name">Tier Two Bronze Producer</p>
+              <p id="producer_info_13" class="info">0</p>
+              <p onclick='buyBuilding("13")' id="producer_btn_13" class="buy_btn">0</p>
+              <p onclick='toggleAuto("13")' id="auto_btn_13" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row iron">
+              <p class="name">Tier Two Iron Producer</p>
+              <p id="producer_info_14" class="info">0</p>
+              <p onclick='buyBuilding("14")' id="producer_btn_14" class="buy_btn">0</p>
+              <p onclick='toggleAuto("14")' id="auto_btn_14" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row steel">
+              <p class="name">Tier Two Steel Producer</p>
+              <p id="producer_info_15" class="info">0</p>
+              <p onclick='buyBuilding("15")' id="producer_btn_15" class="buy_btn">0</p>
+              <p onclick='toggleAuto("15")' id="auto_btn_15" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Tier Two Silver Producer</p>
+              <p id="producer_info_16" class="info">0</p>
+              <p onclick='buyBuilding("16")' id="producer_btn_16" class="buy_btn">0</p>
+              <p onclick='toggleAuto("16")' id="auto_btn_16" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Tier Two Gold Producer</p>
+              <p id="producer_info_17" class="info">0</p>
+              <p onclick='buyBuilding("17")' id="producer_btn_17" class="buy_btn">0</p>
+              <p onclick='toggleAuto("17")' id="auto_btn_17" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Tier Two Gem Producer</p>
+              <p id="producer_info_18" class="info">0</p>
+              <p onclick='buyBuilding("18")' id="producer_btn_18" class="buy_btn">0</p>
+              <p onclick='toggleAuto("18")' id="auto_btn_18" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Tier Two Rune Producer</p>
+              <p id="producer_info_19" class="info">0</p>
+              <p onclick='buyBuilding("19")' id="producer_btn_19" class="buy_btn">0</p>
+              <p onclick='toggleAuto("19")' id="auto_btn_19" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="tier_three_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("t3", 1)'>1</p>
+              <p onclick='setBuyAmt("t3", 10)'>10</p>
+              <p onclick='setBuyAmt("t3", 25)'>25</p>
+              <p onclick='setBuyAmt("t3", 100)'>100</p>
+              <p onclick='setBuyAmt("t3", "max")'>Max</p>
+            </div>
+
+            <div class="row stone">
+              <p class="name">Tier Three Stone Producer</p>
+              <p id="producer_info_20" class="info">0</p>
+              <p onclick='buyBuilding("20")' id="producer_btn_20" class="buy_btn">0</p>
+              <p onclick='toggleAuto("20")' id="auto_btn_20" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row wood">
+              <p class="name">Tier Three Wood Producer</p>
+              <p id="producer_info_21" class="info">0</p>
+              <p onclick='buyBuilding("21")' id="producer_btn_21" class="buy_btn">0</p>
+              <p onclick='toggleAuto("21")' id="auto_btn_21" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row copper">
+              <p class="name">Tier Three Copper Producer</p>
+              <p id="producer_info_22" class="info">0</p>
+              <p onclick='buyBuilding("22")' id="producer_btn_22" class="buy_btn">0</p>
+              <p onclick='toggleAuto("22")' id="auto_btn_22" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row bronze">
+              <p class="name">Tier Three Bronze Producer</p>
+              <p id="producer_info_23" class="info">0</p>
+              <p onclick='buyBuilding("23")' id="producer_btn_23" class="buy_btn">0</p>
+              <p onclick='toggleAuto("23")' id="auto_btn_23" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row iron">
+              <p class="name">Tier Three Iron Producer</p>
+              <p id="producer_info_24" class="info">0</p>
+              <p onclick='buyBuilding("24")' id="producer_btn_24" class="buy_btn">0</p>
+              <p onclick='toggleAuto("24")' id="auto_btn_24" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row steel">
+              <p class="name">Tier Three Steel Producer</p>
+              <p id="producer_info_25" class="info">0</p>
+              <p onclick='buyBuilding("25")' id="producer_btn_25" class="buy_btn">0</p>
+              <p onclick='toggleAuto("25")' id="auto_btn_25" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Tier Three Silver Producer</p>
+              <p id="producer_info_26" class="info">0</p>
+              <p onclick='buyBuilding("26")' id="producer_btn_26" class="buy_btn">0</p>
+              <p onclick='toggleAuto("26")' id="auto_btn_26" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Tier Three Gold Producer</p>
+              <p id="producer_info_27" class="info">0</p>
+              <p onclick='buyBuilding("27")' id="producer_btn_27" class="buy_btn">0</p>
+              <p onclick='toggleAuto("27")' id="auto_btn_27" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Tier Three Gem Producer</p>
+              <p id="producer_info_28" class="info">0</p>
+              <p onclick='buyBuilding("28")' id="producer_btn_28" class="buy_btn">0</p>
+              <p onclick='toggleAuto("28")' id="auto_btn_28" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Tier Three Rune Producer</p>
+              <p id="producer_info_29" class="info">0</p>
+              <p onclick='buyBuilding("29")' id="producer_btn_29" class="buy_btn">0</p>
+              <p onclick='toggleAuto("29")' id="auto_btn_29" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="tier_four_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("t4", 1)'>1</p>
+              <p onclick='setBuyAmt("t4", 10)'>10</p>
+              <p onclick='setBuyAmt("t4", 25)'>25</p>
+              <p onclick='setBuyAmt("t4", 100)'>100</p>
+              <p onclick='setBuyAmt("t4", "max")'>Max</p>
+            </div>
+
+            <div class="row stone">
+              <p class="name">Tier Four Stone Producer</p>
+              <p id="producer_info_30" class="info">0</p>
+              <p onclick='buyBuilding("30")' id="producer_btn_30" class="buy_btn">0</p>
+              <p onclick='toggleAuto("30")' id="auto_btn_30" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row wood">
+              <p class="name">Tier Four Wood Producer</p>
+              <p id="producer_info_31" class="info">0</p>
+              <p onclick='buyBuilding("31")' id="producer_btn_31" class="buy_btn">0</p>
+              <p onclick='toggleAuto("31")' id="auto_btn_31" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row copper">
+              <p class="name">Tier Four Copper Producer</p>
+              <p id="producer_info_32" class="info">0</p>
+              <p onclick='buyBuilding("32")' id="producer_btn_32" class="buy_btn">0</p>
+              <p onclick='toggleAuto("32")' id="auto_btn_32" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row bronze">
+              <p class="name">Tier Four Bronze Producer</p>
+              <p id="producer_info_33" class="info">0</p>
+              <p onclick='buyBuilding("33")' id="producer_btn_33" class="buy_btn">0</p>
+              <p onclick='toggleAuto("33")' id="auto_btn_33" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row iron">
+              <p class="name">Tier Four Iron Producer</p>
+              <p id="producer_info_34" class="info">0</p>
+              <p onclick='buyBuilding("34")' id="producer_btn_34" class="buy_btn">0</p>
+              <p onclick='toggleAuto("34")' id="auto_btn_34" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row steel">
+              <p class="name">Tier Four Steel Producer</p>
+              <p id="producer_info_35" class="info">0</p>
+              <p onclick='buyBuilding("35")' id="producer_btn_35" class="buy_btn">0</p>
+              <p onclick='toggleAuto("35")' id="auto_btn_35" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Tier Four Silver Producer</p>
+              <p id="producer_info_36" class="info">0</p>
+              <p onclick='buyBuilding("36")' id="producer_btn_36" class="buy_btn">0</p>
+              <p onclick='toggleAuto("36")' id="auto_btn_36" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Tier Four Gold Producer</p>
+              <p id="producer_info_37" class="info">0</p>
+              <p onclick='buyBuilding("37")' id="producer_btn_37" class="buy_btn">0</p>
+              <p onclick='toggleAuto("37")' id="auto_btn_37" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Tier Four Gem Producer</p>
+              <p id="producer_info_38" class="info">0</p>
+              <p onclick='buyBuilding("38")' id="producer_btn_38" class="buy_btn">0</p>
+              <p onclick='toggleAuto("38")' id="auto_btn_38" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Tier Four Rune Producer</p>
+              <p id="producer_info_39" class="info">0</p>
+              <p onclick='buyBuilding("39")' id="producer_btn_39" class="buy_btn">0</p>
+              <p onclick='toggleAuto("39")' id="auto_btn_39" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="tier_five_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("t5", 1)'>1</p>
+              <p onclick='setBuyAmt("t5", 10)'>10</p>
+              <p onclick='setBuyAmt("t5", 25)'>25</p>
+              <p onclick='setBuyAmt("t5", 100)'>100</p>
+              <p onclick='setBuyAmt("t5", "max")'>Max</p>
+            </div>
+
+            <div class="row stone">
+              <p class="name">Tier Five Stone Producer</p>
+              <p id="producer_info_40" class="info">0</p>
+              <p onclick='buyBuilding("40")' id="producer_btn_40" class="buy_btn">0</p>
+              <p onclick='toggleAuto("40")' id="auto_btn_40" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row wood">
+              <p class="name">Tier Five Wood Producer</p>
+              <p id="producer_info_41" class="info">0</p>
+              <p onclick='buyBuilding("41")' id="producer_btn_41" class="buy_btn">0</p>
+              <p onclick='toggleAuto("41")' id="auto_btn_41" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row copper">
+              <p class="name">Tier Five Copper Producer</p>
+              <p id="producer_info_42" class="info">0</p>
+              <p onclick='buyBuilding("42")' id="producer_btn_42" class="buy_btn">0</p>
+              <p onclick='toggleAuto("42")' id="auto_btn_42" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row bronze">
+              <p class="name">Tier Five Bronze Producer</p>
+              <p id="producer_info_43" class="info">0</p>
+              <p onclick='buyBuilding("43")' id="producer_btn_43" class="buy_btn">0</p>
+              <p onclick='toggleAuto("43")' id="auto_btn_43" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row iron">
+              <p class="name">Tier Five Iron Producer</p>
+              <p id="producer_info_44" class="info">0</p>
+              <p onclick='buyBuilding("44")' id="producer_btn_44" class="buy_btn">0</p>
+              <p onclick='toggleAuto("44")' id="auto_btn_44" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row steel">
+              <p class="name">Tier Five Steel Producer</p>
+              <p id="producer_info_45" class="info">0</p>
+              <p onclick='buyBuilding("45")' id="producer_btn_45" class="buy_btn">0</p>
+              <p onclick='toggleAuto("45")' id="auto_btn_45" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Tier Five Silver Producer</p>
+              <p id="producer_info_46" class="info">0</p>
+              <p onclick='buyBuilding("46")' id="producer_btn_46" class="buy_btn">0</p>
+              <p onclick='toggleAuto("46")' id="auto_btn_46" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Tier Five Gold Producer</p>
+              <p id="producer_info_47" class="info">0</p>
+              <p onclick='buyBuilding("47")' id="producer_btn_47" class="buy_btn">0</p>
+              <p onclick='toggleAuto("47")' id="auto_btn_47" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Tier Five Gem Producer</p>
+              <p id="producer_info_48" class="info">0</p>
+              <p onclick='buyBuilding("48")' id="producer_btn_48" class="buy_btn">0</p>
+              <p onclick='toggleAuto("48")' id="auto_btn_48" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Tier Five Rune Producer</p>
+              <p id="producer_info_49" class="info">0</p>
+              <p onclick='buyBuilding("49")' id="producer_btn_49" class="buy_btn">0</p>
+              <p onclick='toggleAuto("49")' id="auto_btn_49" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="tier_six_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("t6", 1)'>1</p>
+              <p onclick='setBuyAmt("t6", 10)'>10</p>
+              <p onclick='setBuyAmt("t6", 25)'>25</p>
+              <p onclick='setBuyAmt("t6", 100)'>100</p>
+              <p onclick='setBuyAmt("t6", "max")'>Max</p>
+            </div>
+
+            <div class="row stone">
+              <p class="name">Tier Six Stone Producer</p>
+              <p id="producer_info_50" class="info">0</p>
+              <p onclick='buyBuilding("50")' id="producer_btn_50" class="buy_btn">0</p>
+              <p onclick='toggleAuto("50")' id="auto_btn_50" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row wood">
+              <p class="name">Tier Six Wood Producer</p>
+              <p id="producer_info_51" class="info">0</p>
+              <p onclick='buyBuilding("51")' id="producer_btn_51" class="buy_btn">0</p>
+              <p onclick='toggleAuto("51")' id="auto_btn_51" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row copper">
+              <p class="name">Tier Six Copper Producer</p>
+              <p id="producer_info_52" class="info">0</p>
+              <p onclick='buyBuilding("52")' id="producer_btn_52" class="buy_btn">0</p>
+              <p onclick='toggleAuto("52")' id="auto_btn_52" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row bronze">
+              <p class="name">Tier Six Bronze Producer</p>
+              <p id="producer_info_53" class="info">0</p>
+              <p onclick='buyBuilding("53")' id="producer_btn_53" class="buy_btn">0</p>
+              <p onclick='toggleAuto("53")' id="auto_btn_53" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row iron">
+              <p class="name">Tier Six Iron Producer</p>
+              <p id="producer_info_54" class="info">0</p>
+              <p onclick='buyBuilding("54")' id="producer_btn_54" class="buy_btn">0</p>
+              <p onclick='toggleAuto("54")' id="auto_btn_54" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row steel">
+              <p class="name">Tier Six Steel Producer</p>
+              <p id="producer_info_55" class="info">0</p>
+              <p onclick='buyBuilding("55")' id="producer_btn_55" class="buy_btn">0</p>
+              <p onclick='toggleAuto("55")' id="auto_btn_55" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Tier Six Silver Producer</p>
+              <p id="producer_info_56" class="info">0</p>
+              <p onclick='buyBuilding("56")' id="producer_btn_56" class="buy_btn">0</p>
+              <p onclick='toggleAuto("56")' id="auto_btn_56" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Tier Six Gold Producer</p>
+              <p id="producer_info_57" class="info">0</p>
+              <p onclick='buyBuilding("57")' id="producer_btn_57" class="buy_btn">0</p>
+              <p onclick='toggleAuto("57")' id="auto_btn_57" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Tier Six Gem Producer</p>
+              <p id="producer_info_58" class="info">0</p>
+              <p onclick='buyBuilding("58")' id="producer_btn_58" class="buy_btn">0</p>
+              <p onclick='toggleAuto("58")' id="auto_btn_58" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Tier Six Rune Producer</p>
+              <p id="producer_info_59" class="info">0</p>
+              <p onclick='buyBuilding("59")' id="producer_btn_59" class="buy_btn">0</p>
+              <p onclick='toggleAuto("59")' id="auto_btn_59" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="foremen_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("foremen", 1)'>1</p>
+              <p onclick='setBuyAmt("foremen", 5)'>5</p>
+              <p onclick='setBuyAmt("foremen", 20)'>20</p>
+            </div>
+
+            <p>Unassigned Foremen: <span id="foremen_info_00">0</span></p>
+
+            <div class="row stone">
+              <p class="name">Stone Foremen</p>
+              <p id="foremen_info_01" class="info">0</p>
+              <p onclick='assignForemen("01")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row wood">
+              <p class="name">Wood Foremen</p>
+              <p id="foremen_info_02" class="info">0</p>
+              <p onclick='assignForemen("02")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row copper">
+              <p class="name">Copper Foremen</p>
+              <p id="foremen_info_03" class="info">0</p>
+              <p onclick='assignForemen("03")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row bronze">
+              <p class="name">Bronze Foremen</p>
+              <p id="foremen_info_04" class="info">0</p>
+              <p onclick='assignForemen("04")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row iron">
+              <p class="name">Iron Foremen</p>
+              <p id="foremen_info_05" class="info">0</p>
+              <p onclick='assignForemen("05")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row steel">
+              <p class="name">Steel Foremen</p>
+              <p id="foremen_info_06" class="info">0</p>
+              <p onclick='assignForemen("06")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row silver">
+              <p class="name">Silver Foremen</p>
+              <p id="foremen_info_07" class="info">0</p>
+              <p onclick='assignForemen("07")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row gold">
+              <p class="name">Gold Foremen</p>
+              <p id="foremen_info_08" class="info">0</p>
+              <p onclick='assignForemen("08")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row gems">
+              <p class="name">Gem Foremen</p>
+              <p id="foremen_info_09" class="info">0</p>
+              <p onclick='assignForemen("09")' class="buy_btn">Assign Foremen</p>
+            </div>
+
+            <div class="row runes">
+              <p class="name">Rune Foremen</p>
+              <p id="foremen_info_10" class="info">0</p>
+              <p onclick='assignForemen("10")' class="buy_btn">Assign Foremen</p>
+            </div>
+          </div>
+
+          <div class="acolytes_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("potential", 1)'>1</p>
+              <p onclick='setBuyAmt("potential", 10)'>10</p>
+              <p onclick='setBuyAmt("potential", 25)'>25</p>
+              <p onclick='setBuyAmt("potential", 100)'>100</p>
+              <p onclick='setBuyAmt("potential", "max")'>Max</p>
+            </div>
+
+            <div class="row potential">
+              <p class="name">Tier One Acolyte</p>
+              <p id="producer_info_60" class="info">0</p>
+              <p onclick='buyBuilding("60")' id="producer_btn_60" class="buy_btn">0</p>
+              <p onclick='toggleAuto("60")' id="auto_btn_60" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row potential">
+              <p class="name">Tier Two Acolyte</p>
+              <p id="producer_info_61" class="info">0</p>
+              <p onclick='buyBuilding("61")' id="producer_btn_61" class="buy_btn">0</p>
+              <p onclick='toggleAuto("61")' id="auto_btn_61" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row potential">
+              <p class="name">Tier Three Acolyte</p>
+              <p id="producer_info_62" class="info">0</p>
+              <p onclick='buyBuilding("62")' id="producer_btn_62" class="buy_btn">0</p>
+              <p onclick='toggleAuto("62")' id="auto_btn_62" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row potential">
+              <p class="name">Tier Four Acolyte</p>
+              <p id="producer_info_63" class="info">0</p>
+              <p onclick='buyBuilding("63")' id="producer_btn_63" class="buy_btn">0</p>
+              <p onclick='toggleAuto("63")' id="auto_btn_63" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row potential">
+              <p class="name">Tier Five Acolyte</p>
+              <p id="producer_info_64" class="info">0</p>
+              <p onclick='buyBuilding("64")' id="producer_btn_64" class="buy_btn">0</p>
+              <p onclick='toggleAuto("64")' id="auto_btn_64" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row potential">
+              <p class="name">Tier Six Acolyte</p>
+              <p id="producer_info_65" class="info">0</p>
+              <p onclick='buyBuilding("65")' id="producer_btn_65" class="buy_btn">0</p>
+              <p onclick='toggleAuto("65")' id="auto_btn_65" class="auto_btn">Auto</p>
+            </div>
+          </div>
+
+          <div class="followers_window" style="display: none;">
+            <div class="buy_amt_btns">
+              <p onclick='setBuyAmt("divinity", 1)'>1</p>
+              <p onclick='setBuyAmt("divinity", 10)'>10</p>
+              <p onclick='setBuyAmt("divinity", 25)'>25</p>
+              <p onclick='setBuyAmt("divinity", 100)'>100</p>
+              <p onclick='setBuyAmt("divinity", "max")'>Max</p>
+            </div>
+
+            <div class="row divinity">
+              <p class="name">Tier One Follower</p>
+              <p id="producer_info_70" class="info">0</p>
+              <p onclick='buyBuilding("70")' id="producer_btn_70" class="buy_btn">0</p>
+              <p onclick='toggleAuto("70")' id="auto_btn_70" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row divinity">
+              <p class="name">Tier Two Follower</p>
+              <p id="producer_info_71" class="info">0</p>
+              <p onclick='buyBuilding("71")' id="producer_btn_71" class="buy_btn">0</p>
+              <p onclick='toggleAuto("71")' id="auto_btn_71" class="auto_btn">Auto</p>
+            </div>
+            <div class="row divinity">
+              <p class="name">Tier Three Follower</p>
+              <p id="producer_info_72" class="info">0</p>
+              <p onclick='buyBuilding("72")' id="producer_btn_72" class="buy_btn">0</p>
+              <p onclick='toggleAuto("72")' id="auto_btn_72" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row divinity">
+              <p class="name">Tier Four Follower</p>
+              <p id="producer_info_73" class="info">0</p>
+              <p onclick='buyBuilding("73")' id="producer_btn_73" class="buy_btn">0</p>
+              <p onclick='toggleAuto("73")' id="auto_btn_73" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row divinity">
+              <p class="name">Tier Five Follower</p>
+              <p id="producer_info_74" class="info">0</p>
+              <p onclick='buyBuilding("74")' id="producer_btn_74" class="buy_btn">0</p>
+              <p onclick='toggleAuto("74")' id="auto_btn_74" class="auto_btn">Auto</p>
+            </div>
+
+            <div class="row divinity">
+              <p class="name">Tier Six Follower</p>
+              <p id="producer_info_75" class="info">0</p>
+              <p onclick='buyBuilding("75")' id="producer_btn_75" class="buy_btn">0</p>
+              <p onclick='toggleAuto("75")' id="auto_btn_75" class="auto_btn">Auto</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="upgrades_tab" style="display: none;">
+          <div class="base_window" style="display: none;">
+            <table class="upgrades_table">
+              <tr>
+                <td onclick='getMulti("00")' id="upgrade_00" class="coins">C</td>
+                <td onclick='getMulti("01")' id="upgrade_01" class="coins">C</td>
+                <td onclick='getMulti("02")' id="upgrade_02" class="coins">C</td>
+                <td onclick='getMulti("03")' id="upgrade_03" class="coins">C</td>
+                <td onclick='getMulti("04")' id="upgrade_04" class="coins">C</td>
+                <td onclick='getMultiPer("05")' id="upgrade_05" class="coins">C</td>
+                <td onclick='getSpeed("06")' id="upgrade_06" class="coins">C</td>
+                <td onclick='getMulti("07")' id="upgrade_07" class="coins">C</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("08")' id="upgrade_08" class="coins">C</td>
+                <td onclick='getMulti("09")' id="upgrade_09" class="coins">C</td>
+                <td onclick='getMulti("10")' id="upgrade_10" class="coins">C</td>
+                <td onclick='getMulti("11")' id="upgrade_11" class="coins">C</td>
+                <td onclick='getMulti("12")' id="upgrade_12" class="coins">C</td>
+                <td onclick='getMulti("13")' id="upgrade_13" class="coins">C</td>
+                <td onclick='getDivisor("14")' id="upgrade_14" class="coins">C</td>
+                <td onclick='getMultiPer("15")' id="upgrade_15" class="coins">C</td>
+              </tr>
+              <tr>
+                <td onclick='getCostReduc("16")' id="upgrade_16" class="coins">C</td>
+                <td onclick='getMultiPer("17")' id="upgrade_17" class="coins">C</td>
+                <td onclick='getMulti("18")' id="upgrade_18" class="coins">C</td>
+                <td onclick='getMulti("19")' id="upgrade_19" class="coins">C</td>
+                <td onclick='getMulti("20")' id="upgrade_20" class="coins">C</td>
+                <td onclick='getMulti("21")' id="upgrade_21" class="coins">C</td>
+                <td onclick='getExpReduc("22")' id="upgrade_22" class="coins">C</td>
+                <td onclick='getSpeed("23")' id="upgrade_23" class="coins">C</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("30")' id="upgrade_30" class="stone">S</td>
+                <td onclick='getBoost("31")' id="upgrade_31" class="stone">S</td>
+                <td onclick='getMulti("32")' id="upgrade_32" class="stone">S</td>
+                <td onclick='getSpeed("33")' id="upgrade_33" class="stone">S</td>
+                <td onclick='getBoost("34")' id="upgrade_34" class="stone">S</td>
+                <td onclick='getDivisor("35")' id="upgrade_35" class="stone">S</td>
+                <td onclick='getMultiPer("36")' id="upgrade_36" class="stone">S</td>
+                <td onclick='getSpeed("37")' id="upgrade_37" class="stone">S</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("40")' id="upgrade_40" class="wood">W</td>
+                <td onclick='getBoost("41")' id="upgrade_41" class="wood">W</td>
+                <td onclick='getMulti("42")' id="upgrade_42" class="wood">W</td>
+                <td onclick='getSpeed("43")' id="upgrade_43" class="wood">W</td>
+                <td onclick='getBoost("44")' id="upgrade_44" class="wood">W</td>
+                <td onclick='getDivisor("45")' id="upgrade_45" class="wood">W</td>
+                <td onclick='getMultiPer("46")' id="upgrade_46" class="wood">W</td>
+                <td onclick='getSpeed("47")' id="upgrade_47" class="wood">W</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("50")' id="upgrade_50" class="copper">C</td>
+                <td onclick='getBoost("51")' id="upgrade_51" class="copper">C</td>
+                <td onclick='getMulti("52")' id="upgrade_52" class="copper">C</td>
+                <td onclick='getSpeed("53")' id="upgrade_53" class="copper">C</td>
+                <td onclick='getBoost("54")' id="upgrade_54" class="copper">C</td>
+                <td onclick='getDivisor("55")' id="upgrade_55" class="copper">C</td>
+                <td onclick='getMultiPer("56")' id="upgrade_56" class="copper">C</td>
+                <td onclick='getSpeed("57")' id="upgrade_57" class="copper">C</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("60")' id="upgrade_60" class="bronze">B</td>
+                <td onclick='getBoost("61")' id="upgrade_61" class="bronze">B</td>
+                <td onclick='getMulti("62")' id="upgrade_62" class="bronze">B</td>
+                <td onclick='getSpeed("63")' id="upgrade_63" class="bronze">B</td>
+                <td onclick='getBoost("64")' id="upgrade_64" class="bronze">B</td>
+                <td onclick='getDivisor("65")' id="upgrade_65" class="bronze">B</td>
+                <td onclick='getMultiPer("66")' id="upgrade_66" class="bronze">B</td>
+                <td onclick='getSpeed("67")' id="upgrade_67" class="bronze">B</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("70")' id="upgrade_70" class="iron">I</td>
+                <td onclick='getBoost("71")' id="upgrade_71" class="iron">I</td>
+                <td onclick='getMulti("72")' id="upgrade_72" class="iron">I</td>
+                <td onclick='getSpeed("73")' id="upgrade_73" class="iron">I</td>
+                <td onclick='getBoost("74")' id="upgrade_74" class="iron">I</td>
+                <td onclick='getDivisor("75")' id="upgrade_75" class="iron">I</td>
+                <td onclick='getMultiPer("76")' id="upgrade_76" class="iron">I</td>
+                <td onclick='getSpeed("77")' id="upgrade_77" class="iron">I</td>
+              </tr>
+              <tr>
+                <td onclick='getMulti("80")' id="upgrade_80" class="steel">S</td>
+                <td onclick='getBoost("81")' id="upgrade_81" class="steel">S</td>
+                <td onclick='getMulti("82")' id="upgrade_82" class="steel">S</td>
+                <td onclick='getSpeed("83")' id="upgrade_83" class="steel">S</td>
+                <td onclick='getBoost("84")' id="upgrade_84" class="steel">S</td>
+                <td onclick='getDivisor("85")' id="upgrade_85" class="steel">S</td>
+                <td onclick='getMultiPer("86")' id="upgrade_86" class="steel">S</td>
+                <td onclick='getSpeed("87")' id="upgrade_87" class="steel">S</td>
+              </tr>
+            </table>
+            <div class="upgrade_text" style="display: none;">
+              <p class="upg_cost">0</p>
+              <p class="upg_info">0</p>
+            </div>
+          </div>
+
+          <div class="land_window" style="display: none;">
+            <table class="upgrades_table">
+              <tr>
+                <td onclick='getMulti("90")' id="deeds_upgrade_00" class="deeds">D</td>
+                <td onclick='getMulti("91")' id="deeds_upgrade_01" class="deeds">D</td>
+                <td onclick='getBoost("92")' id="deeds_upgrade_02" class="deeds">D</td>
+                <td onclick='getBoost("93")' id="deeds_upgrade_03" class="deeds">D</td>
+                <td onclick='getCostReduc("94")' id="deeds_upgrade_04" class="deeds">D</td>
+                <td onclick='getExpReduc("95")' id="deeds_upgrade_05" class="deeds">D</td>
+                <td onclick='getMulti("96")' id="deeds_upgrade_06" class="deeds">D</td>
+                <td onclick='getMultiPer("97")' id="deeds_upgrade_07" class="deeds">D</td>
+              </tr>
+              <tr>
+                <td onclick='getBoost("98")' id="deeds_upgrade_08" class="deeds">D</td>
+                <td onclick='getCostReduc("99")' id="deeds_upgrade_09" class="deeds">D</td>
+                <td onclick='getMultiPer("100")' id="deeds_upgrade_10" class="deeds">D</td>
+                <td onclick='getMultiPer("101")' id="deeds_upgrade_11" class="deeds">D</td>
+                <td onclick='getExpReduc("102")' id="deeds_upgrade_12" class="deeds">D</td>
+                <td onclick='getMulti("103")' id="deeds_upgrade_13" class="deeds">D</td>
+                <td onclick='getBoost("104")' id="deeds_upgrade_14" class="deeds">D</td>
+                <td onclick='getBoost("105")' id="deeds_upgrade_15" class="deeds">D</td>
+              </tr>
+              <tr>
+                <td onclick='getCostReduc("106")' id="deeds_upgrade_16" class="deeds">D</td>
+                <td onclick='getMultiPer("107")' id="deeds_upgrade_17" class="deeds">D</td>
+                <td onclick='getMultiPer("108")' id="deeds_upgrade_18" class="deeds">D</td>
+                <td onclick='getExpReduc("109")' id="deeds_upgrade_19" class="deeds">D</td>
+                <td onclick='getMulti("110")' id="deeds_upgrade_20" class="deeds">D</td>
+                <td onclick='getMultiPer("111")' id="deeds_upgrade_21" class="deeds">D</td>
+                <td onclick='getBoost("112")' id="deeds_upgrade_22" class="deeds">D</td>
+                <td onclick='getBoost("113")' id="deeds_upgrade_23" class="deeds">D</td>
+              </tr>
+              <tr>
+                <td onclick='getCostReduc("114")' id="deeds_upgrade_24" class="deeds">D</td>
+                <td onclick='getMultiPer("115")' id="deeds_upgrade_25" class="deeds">D</td>
+                <td onclick='getMultiPer("116")' id="deeds_upgrade_26" class="deeds">D</td>
+                <td onclick='getExpReduc("117")' id="deeds_upgrade_27" class="deeds">D</td>
+                <td onclick='getMulti("118")' id="deeds_upgrade_28" class="deeds">D</td>
+                <td onclick='getBoost("119")' id="deeds_upgrade_29" class="deeds">D</td>
+                <td onclick='getBoost("120")' id="deeds_upgrade_30" class="deeds">D</td>
+                <td onclick='getCostReduc("121")' id="deeds_upgrade_31" class="deeds">D</td>
+              </tr>
+              <tr>
+                <td onclick='getMultiPer("122")' id="deeds_upgrade_32" class="deeds">D</td>
+                <td onclick='getBoost("123")' id="deeds_upgrade_33" class="deeds">D</td>
+                <td onclick='getExpReduc("124")' id="deeds_upgrade_34" class="deeds">D</td>
+                <td onclick='getMulti("125")' id="deeds_upgrade_35" class="deeds">D</td>
+                <td onclick='getMultiPer("126")' id="deeds_upgrade_36" class="deeds">D</td>
+                <td onclick='getBoost("127")' id="deeds_upgrade_37" class="deeds">D</td>
+                <td onclick='getBoost("128")' id="deeds_upgrade_38" class="deeds">D</td>
+                <td onclick='getCostReduc("129")' id="deeds_upgrade_39" class="deeds">D</td>
+              </tr>
+              <tr>
+                <td onclick='getMultiPer("130")' id="deeds_upgrade_40" class="deeds">D</td>
+                <td onclick='getExpReduc("131")' id="deeds_upgrade_41" class="deeds">D</td>
+                <td onclick='getBoost("132")' id="deeds_upgrade_42" class="deeds">D</td>
+                <td onclick='getBoost("133")' id="deeds_upgrade_43" class="deeds">D</td>
+              </tr>
+            </table>
+            <div class="upgrade_text" style="display: none;">
+              <p class="upg_cost">0</p>
+              <p class="upg_info">0</p>
+            </div>
+          </div>
+
+          <div class="leadership_window" style="display: none;">
+            <div id="leadership_wrapper" class="talent_wrapper"></div>
+          </div>
+
+          <div class="relics_window" style="display: none">
+
+          </div>
+
+          <div class="adornments_window" style="display: none;">
+            <div id="adornments_wrapper" class="talent_wrapper"></div>
+          </div>
+
+          <div class="inventory_window" style="display: none">
+            <table class='equipped'>
+              <tr>
+                <td id='equipped_0'></td>
+                <td id='equipped_1'></td>
+                <td id='equipped_2'></td>
+              </tr>
+              <tr>
+                <td id='equipped_3'></td>
+                <td id='equipped_4'></td>
+              </tr>
+            </table>
+
+            <table class='inventory'>
+              <tr>
+                <td id='inventory_00'></td>
+                <td id='inventory_01'></td>
+                <td id='inventory_02'></td>
+                <td id='inventory_03'></td>
+                <td id='inventory_04'></td>
+                <td id='inventory_05'></td>
+              </tr>
+              <tr>
+                <td id='inventory_10'></td>
+                <td id='inventory_11'></td>
+                <td id='inventory_12'></td>
+                <td id='inventory_13'></td>
+                <td id='inventory_14'></td>
+                <td id='inventory_15'></td>
+              </tr>
+              <tr>
+                <td id='inventory_20'></td>
+                <td id='inventory_21'></td>
+                <td id='inventory_22'></td>
+                <td id='inventory_23'></td>
+                <td id='inventory_24'></td>
+                <td id='inventory_25'></td>
+              </tr>
+              <tr>
+                <td id='inventory_30'></td>
+                <td id='inventory_31'></td>
+                <td id='inventory_32'></td>
+                <td id='inventory_33'></td>
+                <td id='inventory_34'></td>
+                <td id='inventory_35'></td>
+              </tr>
+            </table>
+
+            <div class='craft_btns'>
+              <p id='craft_jewelry_btn' onclick="openCraft('jewelry')">Craft Jewelry</p>
+              <p id='craft_gem_btn' onclick="openCraft('gem')">Craft Gem</p>
+              <p id='craft_rune_btn' onclick="openCraft('rune')">Craft Rune</p>
+            </div>
+
+            <div id="craft_window">
+              <div id="stat_choices">
+                <p>Select what stats this <span id="craft_type">0</span> will increase:</p>
+                <p>Stat choices remaining: <span id="stats_avail">0</span></p>
+                <p>Vigor:</p>
+                <p onclick="selectStat('stats_00')" id="stats_00">Coin Multiplier</p>
+                <p onclick="selectStat('stats_01')" id="stats_01">Resource Multiplier</p>
+                <p onclick="selectStat('stats_02')" id="stats_02">Speed Multiplier</p>
+                <p>Yacana:</p>
+                <p onclick="selectStat('stats_03')" id="stats_03">Foremen Multiplier Boost</p>
+                <p onclick="selectStat('stats_04')" id="stats_04">Foremen Resource Boost</p>
+                <p onclick="selectStat('stats_05')" id="stats_05">Foremen Speed Boost</p>
+                <p>Orgone:</p>
+                <p onclick="selectStat('stats_06')" id="stats_06">Individual Producer Multiplier</p>
+                <p onclick="selectStat('stats_07')" id="stats_07">Producer Multiplier by Tier</p>
+                <p onclick="selectStat('stats_08')" id="stats_08">Producer Multiplier by Resource</p>
+                <p>Anima:</p>
+                <p onclick="selectStat('stats_09')" id="stats_09">Ancestry Gain</p>
+                <p onclick="selectStat('stats_10')" id="stats_10">Jewelry Power</p>
+                <p onclick="selectStat('stats_11')" id="stats_11">Gem Power</p>
+                <p>Aether:</p>
+                <p onclick="selectStat('stats_12')" id="stats_12">Potential Gain</p>
+                <p onclick="selectStat('stats_13')" id="stats_13">Rune Power</p>
+                <p onclick="selectStat('stats_14')" id="stats_14">Acolyte Boost</p>
+              </div>
+              <div id="craft_display">
+                <p id="item_preview"></p>
+                <p onclick="craftItem()">Craft Item</p>
               </div>
             </div>
           </div>
 
-        <div class='upgrades_tab' style='display: none'>
-            <div class='base_window' style='display: none'>
-              <table class='upgrades_table'>
-                <tr>
-                  <td onclick='buyUpgrade("00")' id='upgrade_00' class='coins'></td>
-                </tr>
-              </table>
-            </div>
-            <div class='land_window' style='display: none'>
-              <table class='upgrades_table'>
-                <tr>
-                  <td onclick='buyDeedsUpgrade("00")' id='deeds_upgrade_00' class='deeds'></td>
-                </tr>
-              </table>
-            </div>
-            <div class='leadership_window' style='display: none'>
-              <div id='leadership_wrapper'>
-                <canvas id='leadership_tree' width='1400px' height='1200px'></canvas>
-              </div>
-            </div>
-            <div class='adornments_window' style='display: none'>
-              <div id='adornments_wrapper'>
-                <canvas id='adornments_tree' width='1400px' height='1200px'></canvas>
-              </div>
-            </div>
-            <div class='aptitude_window' style='display: none'>
-              <div id='aptitude_wrapper'>
-                <canvas id='aptitude_tree' width='1400px' height='1200px'></canvas>
-              </div>
-            </div>
-            <div class='lesser_god_window' style='display: none'>
-              <div id='lesser_god_wrapper'>
-                <canvas id='lesser_god_tree' width='1400px' height='1200px'></canvas>
-              </div>
+          <div class="aptitude_window" style="display: none;">
+            <div id="aptitude_wrapper" class="talent_wrapper"></div>
+          </div>
+
+          <div class="traits_window" style="display: none">
+
+          </div>
+
+          <div class="lesser_window" style="display: none;">
+            <div id="lesser_god_wrapper" class="talent_wrapper"></div>
+
+            <div class="traces_window" style="display: none">
+
             </div>
           </div>
+        </div>
       </div>
     </div>
   </main>

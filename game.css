@@ -7,6 +7,12 @@
   user-select: none;
   margin: 0px;
   padding: 0px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 .full_window {
@@ -58,12 +64,6 @@
 .main_nav_bar {
   grid-area: main_nav_bar;
   overflow: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.main_nav_bar::-webkit-scrollbar {
-  display: none;
 }
 
 .main_nav_bar p {
@@ -160,8 +160,20 @@
   margin-left: 50px;
 }
 
-#adornments_wrapper {
+.talent_info {
+  color: black;
+  z-index: 1;
+}
+
+.talent_wrapper {
   overflow: scroll;
-   width: 1100px;
-   height: 600px;
+  width: 1200px;
+  height: 650px;
+  background: darkslategrey;
+}
+
+.craft_window {
+  display: none;
+  z-index: 1;
+
 }
